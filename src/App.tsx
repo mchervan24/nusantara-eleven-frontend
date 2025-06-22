@@ -10,8 +10,8 @@ interface Product {
   description: string;
   price: number;
   stock: number;
-  image?: string; // <--- TAMBAHKAN BARIS INI (opsional, karena mungkin ada produk tanpa gambar)
-  category?: string; // <--- TAMBAHKAN BARIS INI jika Anda ingin menampilkannya atau memiliki di data
+  imageUrl?: string; // <--- UBAH MENJADI imageUrl
+  category?: string;
 }
 
 function App() {
@@ -54,13 +54,13 @@ function App() {
           {products.map((product) => (
             <li key={product._id}>
               {/* Tambahkan tag gambar di sini */}
-              {product.image && (
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  style={{ width: '150px', height: 'auto', marginBottom: '10px' }} // Sesuaikan gaya jika diperlukan
-                />
-              )}
+          {product.imageUrl && ( // <--- UBAH MENJADI imageUrl
+            <img
+              src={product.imageUrl} // <--- UBAH MENJADI imageUrl
+              alt={product.name}
+              style={{ width: '150px', height: 'auto', marginBottom: '10px' }}
+            />
+          )}
               <h2>{product.name}</h2>
               <p>{product.description}</p>
               <p>Harga: Rp {product.price}</p>
