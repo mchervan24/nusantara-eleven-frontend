@@ -1,5 +1,5 @@
 // src/App.tsx (atau src/App.jsx)
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'; 
 import axios from 'axios';
 import './App.css'; // Sesuaikan jika tidak ada file CSS ini
 
