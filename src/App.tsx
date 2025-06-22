@@ -1,5 +1,5 @@
 // src/App.tsx (atau src/App.jsx)
-import { useEffect, useState } from 'react'; 
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css'; // Sesuaikan jika tidak ada file CSS ini
 
@@ -10,6 +10,8 @@ interface Product {
   description: string;
   price: number;
   stock: number;
+  image?: string; // <--- TAMBAHKAN BARIS INI (opsional, karena mungkin ada produk tanpa gambar)
+  category?: string; // <--- TAMBAHKAN BARIS INI jika Anda ingin menampilkannya atau memiliki di data
 }
 
 function App() {
@@ -51,10 +53,19 @@ function App() {
         <ul>
           {products.map((product) => (
             <li key={product._id}>
+              {/* Tambahkan tag gambar di sini */}
+              {product.image && (
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  style={{ width: '150px', height: 'auto', marginBottom: '10px' }} // Sesuaikan gaya jika diperlukan
+                />
+              )}
               <h2>{product.name}</h2>
               <p>{product.description}</p>
               <p>Harga: Rp {product.price}</p>
               <p>Stok: {product.stock}</p>
+              {product.category && <p>Kategori: {product.category}</p>} {/* Menampilkan kategori jika ada */}
             </li>
           ))}
         </ul>
