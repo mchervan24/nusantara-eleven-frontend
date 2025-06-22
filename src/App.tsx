@@ -1,0 +1,66 @@
+// src/App.tsx (atau src/App.jsx)
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import './App.css'; // Sesuaikan jika tidak ada file CSS ini
+
+// Interface untuk TypeScript, jika menggunakan JavaScript bisa diabaikan
+interface Product {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+}
+
+function App() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        // Ganti URL dengan URL publik API Backend Railway Anda
+        const response = await axios.get('https://nusantara-eleven-api-backend-production.up.railway.app/api/products');
+        setProducts(response.data);
+      } catch (err) {
+        setError('Gagal mengambil data produk dari API.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return <div className="App">Memuat produk...</div>;
+  }
+
+  if (error) {
+    return <div className="App" style={{ color: 'red' }}>Error: {error}</div>;
+  }
+
+  return (
+    <div className="App">
+      <h1>Daftar Produk Nusantara Eleven</h1>
+      {products.length === 0 ? (
+        <p>Tidak ada produk ditemukan. Coba pastikan backend Anda memiliki data atau jalankan seeder.</p>
+      ) : (
+        <ul>
+          {products.map((product) => (
+            <li key={product._id}>
+              <h2>{product.name}</h2>
+              <p>{product.description}</p>
+              <p>Harga: Rp {product.price}</p>
+              <p>Stok: {product.stock}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default App;
