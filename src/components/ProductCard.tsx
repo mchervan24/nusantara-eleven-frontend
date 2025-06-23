@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // src/components/ProductCard.tsx
 import React from 'react';
 import { Product } from '../types/Product';
@@ -40,6 +41,58 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
       </div>
     </Link>
+=======
+// frontend/src/components/ProductCard.tsx
+import React from 'react';
+import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { addToCart as utilAddToCart } from '../utils/cart';
+import { Product } from '../types/Product'; // Import tipe Product
+
+interface ProductCardProps {
+  product: Product; // Menerima objek produk lengkap
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const { _id, name, price, stock, imageUrl, team, category } = product; // Destrukturisasi properti
+
+  const handleAddToCart = () => {
+    utilAddToCart(product, 1); // Teruskan objek product lengkap
+    toast.success(`${name} ditambahkan ke keranjang!`);
+  };
+
+  return (
+    <div className="border rounded-lg p-4 bg-white shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+      <img
+        src={imageUrl || "https://via.placeholder.com/300x200?text=No+Image"} // Menggunakan imageUrl
+        alt={name}
+        className="w-full h-48 object-cover rounded-md mb-4"
+      />
+      <div className="flex-grow">
+        <h2 className="text-xl font-semibold text-gray-800 mb-1">{name}</h2> {/* Menggunakan name */}
+        {team && <p className="text-sm text-gray-600 mb-1">Tim: <span className="font-medium">{team}</span></p>}
+        {category && <p className="text-sm text-gray-600 mb-1">Kategori: <span className="font-medium">{category}</span></p>}
+        <p className="text-sm text-gray-600 mb-1">Stok: <span className="font-medium">{stock}</span></p>
+        <p className="text-sm text-gray-600 mb-3">Harga: <span className="font-bold text-green-700">Rp{price.toLocaleString('id-ID')}</span></p>
+      </div>
+      
+      <div className="mt-auto">
+        <Link
+          to={`/detail/${_id}`}
+          className="block w-full text-center bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition-colors duration-300 mb-2"
+        >
+          Lihat Detail
+        </Link>
+        <button
+          onClick={handleAddToCart}
+          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-300"
+          disabled={stock === 0} // Nonaktifkan tombol jika stok 0
+        >
+          {stock === 0 ? "Stok Habis" : "Tambah ke Keranjang"}
+        </button>
+      </div>
+    </div>
+>>>>>>> 1f4aa32 (Fix: Correct react-router-dom version and type imports for Vercel build)
   );
 };
 
